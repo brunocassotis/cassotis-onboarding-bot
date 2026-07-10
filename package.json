@@ -1,0 +1,17 @@
+{
+  "name": "cassotis-onboarding-bot",
+  "version": "1.0.0",
+  "description": "Bridge Microsoft Teams <-> Zoho Zia Agents (Assistente de Onboarding Cassotis)",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "botbuilder": "^4.23.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2"
+  }
+}
