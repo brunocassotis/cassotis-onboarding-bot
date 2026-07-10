@@ -32,7 +32,7 @@ class OnboardingBot extends TeamsActivityHandler {
 
       const conversationId = context.activity.conversation.id;
       if (!sessions.has(conversationId)) {
-        sessions.set(conversationId, randomUUID());
+        sessions.set(conversationId, randomUUID().replace(/-/g, ''));
       }
       const sessionId = sessions.get(conversationId);
 

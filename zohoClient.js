@@ -64,13 +64,26 @@ async function askAgent(query, sessionId) {
     attachments: []
   };
 
-  const res = await fetch(AGENT_ENDPOINT, {
+  let res = await fetch(AGENT_ENDPOINT, {
     method: 'POST',
     headers,
     body: JSON.stringify(body)
   });
 
-  const raw = await res.text();
+  let raw = await res.text();
+
+  // Fallback: alguns ambientes Zoho rejeitam session-id gerado pelo cliente.
+  // Nesse caso, tenta novamente sem o header (a Zoho cria a sessao).
+  if (!res.ok && raw.includes('INVALID_SESSION_ID')) {
+    delete headers['X-ZIAAGENTS-AGENT-SESSION-ID'];
+    res = await fetch(AGENT_ENDPOINT, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body)
+    });
+    raw = await res.text();
+  }
+
   if (!res.ok) {
     throw new Error(`Agent API retornou ${res.status}: ${raw.slice(0, 500)}`);
   }
